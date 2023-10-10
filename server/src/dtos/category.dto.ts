@@ -1,4 +1,4 @@
-export class CreateCategoryDTO {
+export class CategoryDTO {
   name: string;
   orderNo: number;
 }
