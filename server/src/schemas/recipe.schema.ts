@@ -16,7 +16,7 @@ export class Recipe {
       unit: String,
     },
   ])
-  ingredients: [{ ingredient: Ingredient; amount: number; unit: string }];
+  ingredients: { ingredient: Ingredient; amount: number; unit: string }[];
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);
