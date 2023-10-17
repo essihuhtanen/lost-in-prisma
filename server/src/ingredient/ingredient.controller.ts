@@ -26,7 +26,6 @@ export class IngredientController {
 
   @Post()
   async createIngredient(@Body() createIngredientDto: IngredientDTO) {
-    console.log(createIngredientDto);
     return await this.ingredientService.createIngredient(createIngredientDto);
   }
 

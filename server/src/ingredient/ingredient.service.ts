@@ -16,18 +16,18 @@ export class IngredientService {
   }
 
   async getAllIngredients(): Promise<Ingredient[]> {
-    return this.ingredientModel.find().exec();
+    return this.ingredientModel.find().populate('category').exec();
   }
 
   async getIngredientById(id: string): Promise<Ingredient> {
-    return this.ingredientModel.findById(id).exec();
+    return await this.ingredientModel.findById(id).populate('category').exec();
   }
 
   async updateIngredient(
     id: string,
     ingredient: IngredientDTO,
   ): Promise<Ingredient> {
-    return this.ingredientModel.findByIdAndUpdate(id, ingredient).exec();
+    return await this.ingredientModel.findByIdAndUpdate(id, ingredient).exec();
   }
 
   async deleteIngredient(id: string): Promise<Ingredient> {
