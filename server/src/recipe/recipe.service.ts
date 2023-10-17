@@ -14,7 +14,15 @@ export class RecipeService {
   }
 
   async getAllRecipes(): Promise<Recipe[]> {
-    return this.recipeModel.find().populate('ingredients').exec();
+    return this.recipeModel
+      .find()
+      .populate({
+        path: 'ingredients.ingredient',
+        populate: {
+          path: 'category',
+        },
+      })
+      .exec();
   }
 
   async getRecipeById(id: string): Promise<Recipe> {

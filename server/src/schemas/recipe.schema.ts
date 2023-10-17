@@ -8,7 +8,8 @@ export type RecipeDocument = HydratedDocument<Recipe>;
 export class Recipe {
   @Prop()
   name: string;
-
+  @Prop()
+  instructions: string;
   @Prop([
     {
       ingredient: { type: MongooseSchema.Types.ObjectId, ref: 'Ingredient' },

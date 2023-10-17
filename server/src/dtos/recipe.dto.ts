@@ -1,9 +1,7 @@
-import { IngredientDTO } from './ingredient.dto';
-
 export class RecipeDTO {
   name: string;
   ingredients: {
-    ingredient: IngredientDTO;
+    ingredient: string; // TODO - do I want this to be IngredientDTO?
     amount: number;
     unit: string;
   }[];

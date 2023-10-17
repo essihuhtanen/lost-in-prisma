@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body } from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { RecipeDTO } from 'src/dtos/recipe.dto';
 
@@ -17,7 +17,7 @@ export class RecipeController {
   }
 
   @Post()
-  async createRecipe(recipe: RecipeDTO) {
+  async createRecipe(@Body() recipe: RecipeDTO) {
     return await this.recipeService.createRecipe(recipe);
   }
 
