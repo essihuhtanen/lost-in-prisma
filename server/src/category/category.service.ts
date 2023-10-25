@@ -3,31 +3,38 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Category } from '../schemas/category.schema';
 import { CategoryDTO } from '../dtos/category.dto';
+import { DbService } from 'src/db/db.service';
 
 @Injectable()
 export class CategoryService {
+  private readonly entityName = 'category';
+
   constructor(
     @InjectModel(Category.name) private categoryModel: Model<Category>,
+    private dbService: DbService,
   ) {}
 
   async createCategory(createCategoryDto: CategoryDTO): Promise<Category> {
-    const createdCategory = new this.categoryModel(createCategoryDto);
-    return createdCategory.save();
+    return await this.dbService.create(this.categoryModel, createCategoryDto);
   }
 
   async getAllCategories(): Promise<Category[]> {
-    return this.categoryModel.find().exec();
+    return await this.dbService.getAll(this.entityName, this.categoryModel);
   }
 
   async getCategoryById(id: string): Promise<Category> {
-    return this.categoryModel.findById(id).exec();
+    return await this.dbService.getById(
+      this.entityName,
+      this.categoryModel,
+      id,
+    );
   }
 
   async updateCategory(id: string, category: CategoryDTO): Promise<Category> {
-    return this.categoryModel.findByIdAndUpdate(id, category).exec();
+    return await this.dbService.update(this.categoryModel, id, category);
   }
 
   async deleteCategory(id: string): Promise<Category> {
-    return this.categoryModel.findByIdAndDelete(id).exec();
+    return await this.dbService.delete(this.categoryModel, id);
   }
 }
