@@ -23,7 +23,15 @@ export class RecipeService {
   }
 
   async getRecipeById(id: string): Promise<Recipe> {
-    return await this.dbService.getById(this.entityName, this.recipeModel, id);
+    try {
+      return await this.dbService.getById(
+        this.entityName,
+        this.recipeModel,
+        id,
+      );
+    } catch (error) {
+      return null;
+    }
   }
 
   async updateRecipe(id: string, recipe: RecipeDTO): Promise<Recipe> {
@@ -31,6 +39,10 @@ export class RecipeService {
   }
 
   async deleteRecipe(id: string): Promise<Recipe> {
-    return await this.dbService.delete(this.recipeModel, id);
+    try {
+      return await this.dbService.delete(this.recipeModel, id);
+    } catch (error) {
+      return null;
+    }
   }
 }

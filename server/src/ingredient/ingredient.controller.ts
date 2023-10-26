@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -21,7 +22,11 @@ export class IngredientController {
 
   @Get(':id')
   async getIngredientById(@Param('id') id: string) {
-    return await this.ingredientService.getIngredientById(id);
+    const ingredient = await this.ingredientService.getIngredientById(id);
+    if (!ingredient) {
+      throw new NotFoundException(`Ingredient with ID ${id} not found`);
+    }
+    return ingredient;
   }
 
   @Post()
@@ -34,11 +39,23 @@ export class IngredientController {
     @Param('id') id: string,
     @Body() ingredient: IngredientDTO,
   ) {
-    return await this.ingredientService.updateIngredient(id, ingredient);
+    const updatedIngredient = await this.ingredientService.updateIngredient(
+      id,
+      ingredient,
+    );
+    if (!updatedIngredient) {
+      return await this.ingredientService.updateIngredient(id, ingredient);
+    }
+    return ingredient;
   }
 
   @Delete(':id')
   async deleteIngredient(@Param('id') id: string) {
-    return await this.ingredientService.deleteIngredient(id);
+    const deleteIngredient = await this.ingredientService.deleteIngredient(id);
+
+    if (!deleteIngredient) {
+      throw new NotFoundException(`Ingredient with ID ${id} not found`);
+    }
+    return deleteIngredient;
   }
 }

@@ -22,22 +22,34 @@ export class IngredientService {
     return await this.dbService.getAll('ingredient', this.ingredientModel);
   }
 
-  async getIngredientById(id: string): Promise<Ingredient> {
-    return await this.dbService.getById(
-      this.entityName,
-      this.ingredientModel,
-      id,
-    );
+  async getIngredientById(id: string): Promise<Ingredient | null> {
+    try {
+      return await this.dbService.getById(
+        this.entityName,
+        this.ingredientModel,
+        id,
+      );
+    } catch (error) {
+      return null;
+    }
   }
 
   async updateIngredient(
     id: string,
     ingredient: IngredientDTO,
   ): Promise<Ingredient> {
-    return await this.dbService.update(this.ingredientModel, id, ingredient);
+    try {
+      return await this.dbService.update(this.ingredientModel, id, ingredient);
+    } catch (error) {
+      return null;
+    }
   }
 
   async deleteIngredient(id: string): Promise<Ingredient> {
-    return await this.dbService.delete(this.ingredientModel, id);
+    try {
+      return await this.dbService.delete(this.ingredientModel, id);
+    } catch (error) {
+      return null;
+    }
   }
 }

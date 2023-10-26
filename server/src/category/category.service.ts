@@ -22,19 +22,34 @@ export class CategoryService {
     return await this.dbService.getAll(this.entityName, this.categoryModel);
   }
 
-  async getCategoryById(id: string): Promise<Category> {
-    return await this.dbService.getById(
-      this.entityName,
-      this.categoryModel,
-      id,
-    );
+  async getCategoryById(id: string): Promise<Category | null> {
+    try {
+      return await this.dbService.getById(
+        this.entityName,
+        this.categoryModel,
+        id,
+      );
+    } catch (error) {
+      return null;
+    }
   }
 
-  async updateCategory(id: string, category: CategoryDTO): Promise<Category> {
-    return await this.dbService.update(this.categoryModel, id, category);
+  async updateCategory(
+    id: string,
+    category: CategoryDTO,
+  ): Promise<Category | null> {
+    try {
+      return await this.dbService.update(this.categoryModel, id, category);
+    } catch (error) {
+      return null;
+    }
   }
 
-  async deleteCategory(id: string): Promise<Category> {
-    return await this.dbService.delete(this.categoryModel, id);
+  async deleteCategory(id: string): Promise<Category | null> {
+    try {
+      return await this.dbService.delete(this.categoryModel, id);
+    } catch (error) {
+      return null;
+    }
   }
 }

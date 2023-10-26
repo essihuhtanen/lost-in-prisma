@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -21,22 +22,38 @@ export class CategoryController {
 
   @Get(':id')
   async getCategoryById(@Param('id') id: string) {
-    return await this.categoryService.getCategoryById(id);
+    const category = await this.categoryService.getCategoryById(id);
+    if (!category) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+    return category;
   }
 
   @Post()
   async createCategory(@Body() createCategoryDto: CategoryDTO) {
-    console.log(createCategoryDto);
-    return await this.categoryService.createCategory(createCategoryDto);
+    const category =
+      await this.categoryService.createCategory(createCategoryDto);
+    return category;
   }
 
   @Put(':id')
   async updateCategory(@Param('id') id: string, @Body() category: CategoryDTO) {
-    return await this.categoryService.updateCategory(id, category);
+    const updatedCategory = await this.categoryService.updateCategory(
+      id,
+      category,
+    );
+    if (!updatedCategory) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+    return updatedCategory;
   }
 
   @Delete(':id')
   async deleteCategory(@Param('id') id: string) {
-    return await this.categoryService.deleteCategory(id);
+    const deleted = await this.categoryService.deleteCategory(id);
+    if (!deleted) {
+      throw new NotFoundException(`Category with ID ${id} not found`);
+    }
+    return deleted;
   }
 }

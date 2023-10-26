@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Put, Delete, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  NotFoundException,
+} from '@nestjs/common';
 import { RecipeService } from './recipe.service';
 import { RecipeDTO } from 'src/dtos/recipe.dto';
 
@@ -13,7 +21,11 @@ export class RecipeController {
 
   @Get(':id')
   async getRecipeById(id: string) {
-    return await this.recipeService.getRecipeById(id);
+    const recipe = await this.recipeService.getRecipeById(id);
+    if (!recipe) {
+      throw new NotFoundException(`Recipe with ID ${id} not found`);
+    }
+    return recipe;
   }
 
   @Post()
@@ -23,11 +35,19 @@ export class RecipeController {
 
   @Put(':id')
   async updateRecipe(id: string, recipe: RecipeDTO) {
-    return await this.recipeService.updateRecipe(id, recipe);
+    const updatedRecipe = await this.recipeService.updateRecipe(id, recipe);
+    if (!updatedRecipe) {
+      return await this.recipeService.updateRecipe(id, recipe);
+    }
+    return recipe;
   }
 
   @Delete(':id')
   async deleteRecipe(id: string) {
-    return await this.recipeService.deleteRecipe(id);
+    const deletedRecipe = await this.recipeService.deleteRecipe(id);
+    if (!deletedRecipe) {
+      throw new NotFoundException(`Recipe with ID ${id} not found`);
+    }
+    return deletedRecipe;
   }
 }
