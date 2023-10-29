@@ -24,7 +24,7 @@ export class DbService {
   }
 
   async update(model: Model<any>, id: string, data: any): Promise<any> {
-    return model.findByIdAndUpdate(id, data).exec();
+    return model.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
   async delete(model: Model<any>, id: string): Promise<any> {
